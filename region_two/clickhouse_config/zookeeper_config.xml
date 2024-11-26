@@ -1,0 +1,26 @@
+<clickhouse>
+    <zookeeper>
+        <node>
+            <host>172.26.0.2</host>
+            <port>9181</port>
+        </node>
+        <node>
+            <host>172.26.0.3</host>
+            <port>9181</port>
+        </node>
+        <node>
+            <host>172.26.0.4</host>
+            <port>9181</port>
+        </node>
+    </zookeeper>
+
+    <distributed_ddl>
+        <path>/var/lib/clickhouse</path>
+        <profile>default</profile>
+        <pool_size>1</pool_size>
+        <cleanup_delay_period>60</cleanup_delay_period>
+        <task_max_lifetime>604800</task_max_lifetime>
+        <max_tasks_in_queue>1000</max_tasks_in_queue>
+    </distributed_ddl>
+
+</clickhouse>   

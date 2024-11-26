@@ -1,0 +1,58 @@
+<clickhouse>
+    <remote_servers>
+        <!-- Region Two Cluster -->
+        <region_two_cluster>
+            <shard>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>clickhouse04</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>clickhouse05</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>clickhouse06</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </region_two_cluster>
+
+        <!-- Cross-Region DR Cluster -->
+        <dr_cluster>
+            <!-- Region One Shard -->
+            <shard>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>clickhouse01</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>clickhouse02</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>clickhouse03</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+            <!-- Region Two Shard -->
+            <shard>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>clickhouse04</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>clickhouse05</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>clickhouse06</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </dr_cluster>
+    </remote_servers>
+</clickhouse>

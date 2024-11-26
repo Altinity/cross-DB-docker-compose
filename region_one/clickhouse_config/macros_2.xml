@@ -1,0 +1,8 @@
+<clickhouse>
+    <macros>
+        <cluster>dr_cluster</cluster>
+        <region>region_one</region>
+        <shard>1</shard>
+        <replica>clickhouse02</replica>
+    </macros>
+</clickhouse>

@@ -1,0 +1,35 @@
+<clickhouse>
+    <remote_servers>
+        <dr_cluster>
+            <shard>
+                <internal_replication>true</internal_replication>
+                <!-- Region One Replicas -->
+                <replica>
+                    <host>172.25.0.12</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>172.25.0.13</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>172.25.0.14</host>
+                    <port>9000</port>
+                </replica>
+                <!-- Region Two Replicas -->
+                <replica>
+                    <host>172.26.0.12</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>172.26.0.13</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>172.26.0.14</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </dr_cluster>
+    </remote_servers>
+</clickhouse>

@@ -1,0 +1,126 @@
+services:
+  clickhouse01-keeper:
+    image: clickhouse/clickhouse-keeper:latest
+    hostname: clickhouse01-keeper
+    container_name: clickhouse01-keeper
+    ports:
+      - 9181:9181  # Keeper port
+      - 9234:9234  # Keeper Raft port
+    environment:
+      - KEEPER_SERVER_ID=1
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      clickhouse_network_region_one:
+        ipv4_address: 172.25.0.2
+    extra_hosts:
+      - "clickhouse01-keeper:172.25.0.2"
+      - "clickhouse02-keeper:172.25.0.3"
+      - "clickhouse03-keeper:172.25.0.4"
+      - "clickhouse01-server:172.25.0.12"
+      - "clickhouse02-server:172.25.0.13"
+      - "clickhouse03-server:172.25.0.14"
+      # Region Two - Keeper and Server Nodes
+      - "clickhouse04-keeper:172.26.0.2"
+      - "clickhouse05-keeper:172.26.0.3"
+      - "clickhouse06-keeper:172.26.0.4"
+      - "clickhouse04-server:172.26.0.12"
+      - "clickhouse05-server:172.26.0.13"
+      - "clickhouse06-server:172.26.0.14"
+    volumes:
+      - ./keeper_config/keeper_config_1.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - clickhouse01-keeper-data:/var/lib/clickhouse
+      - clickhouse01-keeper-logs:/var/log/clickhouse-keeper
+
+  clickhouse02-keeper:
+    image: clickhouse/clickhouse-keeper:latest
+    hostname: clickhouse02-keeper
+    container_name: clickhouse02-keeper
+    ports:
+      - 9182:9181  # Keeper port
+      - 9235:9234  # Keeper Raft port
+    environment:
+      - KEEPER_SERVER_ID=2
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      clickhouse_network_region_one:
+        ipv4_address: 172.25.0.3
+    extra_hosts:
+      - "clickhouse01-keeper:172.25.0.2"
+      - "clickhouse02-keeper:172.25.0.3"
+      - "clickhouse03-keeper:172.25.0.4"
+      - "clickhouse01-server:172.25.0.12"
+      - "clickhouse02-server:172.25.0.13"
+      - "clickhouse03-server:172.25.0.14"
+      # Region Two - Keeper and Server Nodes
+      - "clickhouse04-keeper:172.26.0.2"
+      - "clickhouse05-keeper:172.26.0.3"
+      - "clickhouse06-keeper:172.26.0.4"
+      - "clickhouse04-server:172.26.0.12"
+      - "clickhouse05-server:172.26.0.13"
+      - "clickhouse06-server:172.26.0.14"
+    volumes:
+      - ./keeper_config/keeper_config_2.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - clickhouse02-keeper-data:/var/lib/clickhouse
+      - clickhouse02-keeper-logs:/var/log/clickhouse-keeper
+
+  clickhouse03-keeper:
+    image: clickhouse/clickhouse-keeper:latest
+    hostname: clickhouse03-keeper
+    container_name: clickhouse03-keeper
+    ports:
+      - 9183:9181  # Keeper port
+      - 9236:9234  # Keeper Raft port
+    environment:
+      - KEEPER_SERVER_ID=3
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      clickhouse_network_region_one:
+        ipv4_address: 172.25.0.4
+    extra_hosts:
+      - "clickhouse01-keeper:172.25.0.2"
+      - "clickhouse02-keeper:172.25.0.3"
+      - "clickhouse03-keeper:172.25.0.4"
+      - "clickhouse01-server:172.25.0.12"
+      - "clickhouse02-server:172.25.0.13"
+      - "clickhouse03-server:172.25.0.14"
+      # Region Two - Keeper and Server Nodes
+      - "clickhouse04-keeper:172.26.0.2"
+      - "clickhouse05-keeper:172.26.0.3"
+      - "clickhouse06-keeper:172.26.0.4"
+      - "clickhouse04-server:172.26.0.12"
+      - "clickhouse05-server:172.26.0.13"
+      - "clickhouse06-server:172.26.0.14"
+    volumes:
+      - ./keeper_config/keeper_config_3.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - clickhouse03-keeper-data:/var/lib/clickhouse
+      - clickhouse03-keeper-logs:/var/log/clickhouse-keeper
+
+networks:
+  clickhouse_network_region_one:
+    external: true
+    driver: bridge
+    name: clickhouse_network_region_one
+  clickhouse_network_region_two:
+    external: true
+    driver: bridge
+    name: clickhouse_network_region_two
+
+volumes:
+  clickhouse01-keeper-data:
+  clickhouse02-keeper-data:
+  clickhouse03-keeper-data:
+  clickhouse01-keeper-logs:
+  clickhouse02-keeper-logs:
+  clickhouse03-keeper-logs:

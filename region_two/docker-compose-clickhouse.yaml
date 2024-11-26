@@ -1,0 +1,129 @@
+services:
+  clickhouse01:
+    image: clickhouse/clickhouse-server:latest
+    hostname: clickhouse04-server
+    container_name: clickhouse04-server
+    ports:
+      - 9011:9000
+      - 8131:8123
+    environment:
+      - KEEPER_SERVER_ID=4
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      clickhouse_network_region_two:
+        ipv4_address: 172.26.0.12
+    extra_hosts:
+      - "clickhouse01-keeper:172.25.0.2"
+      - "clickhouse02-keeper:172.25.0.3"
+      - "clickhouse03-keeper:172.25.0.4"
+      - "clickhouse01-server:172.25.0.12"
+      - "clickhouse02-server:172.25.0.13"
+      - "clickhouse03-server:172.25.0.14"
+      # Region Two - Keeper and Server Nodes
+      - "clickhouse04-keeper:172.26.0.2"
+      - "clickhouse05-keeper:172.26.0.3"
+      - "clickhouse06-keeper:172.26.0.4"
+      - "clickhouse04-server:172.26.0.12"
+      - "clickhouse05-server:172.26.0.13"
+      - "clickhouse06-server:172.26.0.14"
+    volumes:
+      - ./config.xml:/etc/clickhouse-server/config.xml
+      - ./clickhouse_config/clusters.xml:/etc/clickhouse-server/config.d/clusters.xml
+      - ./clickhouse_config/zookeeper_config.xml:/etc/clickhouse-server/config.d/zookeeper_config.xml
+      - ./clickhouse_config/macros_1.xml:/etc/clickhouse-server/config.d/macros.xml
+      - clickhouse04-server-data:/var/lib/clickhouse
+
+  clickhouse02:
+    image: clickhouse/clickhouse-server:latest
+    hostname: clickhouse05-server
+    container_name: clickhouse05-server
+    ports:
+      - 9012:9000
+      - 8132:8123
+    environment:
+      - KEEPER_SERVER_ID=5
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      clickhouse_network_region_two:
+        ipv4_address: 172.26.0.13
+    extra_hosts:
+      - "clickhouse01-keeper:172.25.0.2"
+      - "clickhouse02-keeper:172.25.0.3"
+      - "clickhouse03-keeper:172.25.0.4"
+      - "clickhouse01-server:172.25.0.12"
+      - "clickhouse02-server:172.25.0.13"
+      - "clickhouse03-server:172.25.0.14"
+      # Region Two - Keeper and Server Nodes
+      - "clickhouse04-keeper:172.26.0.2"
+      - "clickhouse05-keeper:172.26.0.3"
+      - "clickhouse06-keeper:172.26.0.4"
+      - "clickhouse04-server:172.26.0.12"
+      - "clickhouse05-server:172.26.0.13"
+      - "clickhouse06-server:172.26.0.14"
+    volumes:
+      - ./config.xml:/etc/clickhouse-server/config.xml
+      - ./clickhouse_config/clusters.xml:/etc/clickhouse-server/config.d/clusters.xml
+      - ./clickhouse_config/zookeeper_config.xml:/etc/clickhouse-server/config.d/zookeeper_config.xml
+      - ./clickhouse_config/macros_2.xml:/etc/clickhouse-server/config.d/macros.xml
+      - clickhouse05-server-data:/var/lib/clickhouse
+
+  clickhouse03:
+    image: clickhouse/clickhouse-server:latest
+    hostname: clickhouse06-server
+    container_name: clickhouse06-server
+    ports:
+      - 9013:9000
+      - 8133:8123
+    environment:
+      - KEEPER_SERVER_ID=6
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      clickhouse_network_region_two:
+        ipv4_address: 172.26.0.14
+    extra_hosts:
+      - "clickhouse01-keeper:172.25.0.2"
+      - "clickhouse02-keeper:172.25.0.3"
+      - "clickhouse03-keeper:172.25.0.4"
+      - "clickhouse01-server:172.25.0.12"
+      - "clickhouse02-server:172.25.0.13"
+      - "clickhouse03-server:172.25.0.14"
+      # Region Two - Keeper and Server Nodes
+      - "clickhouse04-keeper:172.26.0.2"
+      - "clickhouse05-keeper:172.26.0.3"
+      - "clickhouse06-keeper:172.26.0.4"
+      - "clickhouse04-server:172.26.0.12"
+      - "clickhouse05-server:172.26.0.13"
+      - "clickhouse06-server:172.26.0.14"
+    volumes:
+      - ./config.xml:/etc/clickhouse-server/config.xml
+      - ./clickhouse_config/clusters.xml:/etc/clickhouse-server/config.d/clusters.xml
+      - ./clickhouse_config/zookeeper_config.xml:/etc/clickhouse-server/config.d/zookeeper_config.xml
+      - ./clickhouse_config/macros_3.xml:/etc/clickhouse-server/config.d/macros.xml
+      - clickhouse06-server-data:/var/lib/clickhouse
+
+networks:
+  clickhouse_network_region_two:
+    external: true
+    driver: bridge
+    name: clickhouse_network_region_two
+  clickhouse_network_region_one:
+    external: true
+    driver: bridge
+    name: clickhouse_network_region_one
+
+volumes:
+  clickhouse04-server-data:
+  clickhouse05-server-data:
+  clickhouse06-server-data:

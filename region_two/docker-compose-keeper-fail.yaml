@@ -1,0 +1,128 @@
+services:
+  clickhouse04-keeper:
+    image: clickhouse/clickhouse-keeper:latest
+    hostname: clickhouse04-keeper
+    container_name: clickhouse04-keeper
+    ports:
+      - 9184:9181  # Keeper port
+      - 9237:9234  # Keeper Raft port
+    environment:
+      - KEEPER_SERVER_ID=4
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      clickhouse_network_region_two:
+        ipv4_address: 172.26.0.2
+    extra_hosts:
+      - "clickhouse01-keeper:172.25.0.2"
+      - "clickhouse02-keeper:172.25.0.3"
+      - "clickhouse03-keeper:172.25.0.4"
+      - "clickhouse01-server:172.25.0.12"
+      - "clickhouse02-server:172.25.0.13"
+      - "clickhouse03-server:172.25.0.14"
+      # Region Two - Keeper and Server Nodes
+      - "clickhouse04-keeper:172.26.0.2"
+      - "clickhouse05-keeper:172.26.0.3"
+      - "clickhouse06-keeper:172.26.0.4"
+      - "clickhouse04-server:172.26.0.12"
+      - "clickhouse05-server:172.26.0.13"
+      - "clickhouse06-server:172.26.0.14"
+    volumes:
+      - ./keeper_config/keeper_config_4_fail.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - clickhouse04-keeper-data:/var/lib/clickhouse
+      - clickhouse04-keeper-logs:/var/log/clickhouse-keeper
+
+  clickhouse05-keeper:
+    image: clickhouse/clickhouse-keeper:latest
+    hostname: clickhouse05-keeper
+    container_name: clickhouse05-keeper
+    ports:
+      - 9185:9181  # Keeper port
+      - 9238:9234  # Keeper Raft port
+    environment:
+      - KEEPER_SERVER_ID=5
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      clickhouse_network_region_two:
+        ipv4_address: 172.26.0.3
+    extra_hosts:
+      - "clickhouse01-keeper:172.25.0.2"
+      - "clickhouse02-keeper:172.25.0.3"
+      - "clickhouse03-keeper:172.25.0.4"
+      - "clickhouse01-server:172.25.0.12"
+      - "clickhouse02-server:172.25.0.13"
+      - "clickhouse03-server:172.25.0.14"
+      # Region Two - Keeper and Server Nodes
+      - "clickhouse04-keeper:172.26.0.2"
+      - "clickhouse05-keeper:172.26.0.3"
+      - "clickhouse06-keeper:172.26.0.4"
+      - "clickhouse04-server:172.26.0.12"
+      - "clickhouse05-server:172.26.0.13"
+      - "clickhouse06-server:172.26.0.14"
+    volumes:
+      - ./keeper_config/keeper_config_5_fail.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - ./keeper_config/listen_host.xml:/etc/clickhouse-server/config.d/listen_host.xml
+      - clickhouse05-keeper-data:/var/lib/clickhouse
+      - clickhouse05-keeper-logs:/var/log/clickhouse-keeper
+
+  clickhouse06-keeper:
+    image: clickhouse/clickhouse-keeper:latest
+    hostname: clickhouse06-keeper
+    container_name: clickhouse06-keeper
+    ports:
+      - 9186:9181  # Keeper port
+      - 9239:9234  # Keeper Raft port
+    environment:
+      - KEEPER_SERVER_ID=6
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      clickhouse_network_region_two:
+        ipv4_address: 172.26.0.4
+    extra_hosts:
+      - "clickhouse01-keeper:172.25.0.2"
+      - "clickhouse02-keeper:172.25.0.3"
+      - "clickhouse03-keeper:172.25.0.4"
+      - "clickhouse01-server:172.25.0.12"
+      - "clickhouse02-server:172.25.0.13"
+      - "clickhouse03-server:172.25.0.14"
+      # Region Two - Keeper and Server Nodes
+      - "clickhouse04-keeper:172.26.0.2"
+      - "clickhouse05-keeper:172.26.0.3"
+      - "clickhouse06-keeper:172.26.0.4"
+      - "clickhouse04-server:172.26.0.12"
+      - "clickhouse05-server:172.26.0.13"
+      - "clickhouse06-server:172.26.0.14"
+    volumes:
+      - ./keeper_config/keeper_config_6_fail.xml:/etc/clickhouse-keeper/keeper_config.xml
+      - ./keeper_config/listen_host.xml:/etc/clickhouse-server/config.d/listen_host.xml
+      - clickhouse06-keeper-data:/var/lib/clickhouse
+      - clickhouse06-keeper-logs:/var/log/clickhouse-keeper
+
+networks:
+  clickhouse_network_region_two:
+    external: true
+    driver: bridge
+    name: clickhouse_network_region_two
+  clickhouse_network_region_one:
+    external: true
+    driver: bridge
+    name: clickhouse_network_region_one
+
+volumes:
+  clickhouse04-keeper-data:
+  clickhouse05-keeper-data:
+  clickhouse06-keeper-data:
+  clickhouse04-keeper-logs:
+  clickhouse05-keeper-logs:
+  clickhouse06-keeper-logs:
